@@ -1,0 +1,37 @@
+{
+  "name": "koa-falcor",
+  "version": "0.0.1",
+  "description": "Koa Middleware for Hosting Falcor Data Sources.",
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "babel src --out-dir lib",
+    "clean": "rimraf lib dist coverage",
+    "prepublish": "npm-run-all clean build",
+    "test": "mocha"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "babel-cli": "^6.7.5",
+    "babel-preset-es2015": "^6.6.0",
+    "babel-register": "^6.7.2",
+    "falcor-router": "^0.4.0",
+    "koa": "^2.0.0",
+    "mocha": "^2.4.5",
+    "npm-run-all": "^1.7.0",
+    "rimraf": "^2.5.2",
+    "should": "^8.3.1",
+    "supertest": "^1.2.0"
+  },
+  "repository": "ratson/koa-falcor",
+  "license": "MIT",
+  "files": [
+    "*.md",
+    "LICENSE",
+    "lib",
+    "src"
+  ],
+  "keywords": [
+    "koa",
+    "falcor"
+  ]
+}
