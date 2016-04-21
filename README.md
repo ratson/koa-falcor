@@ -1,6 +1,6 @@
 # koa-falcor
 
-Koa Middleware for Hosting Falcor Data Sources.
+[Koa](https://github.com/koajs/koa/tree/v2.x) Middleware for Hosting [Falcor](https://github.com/Netflix/falcor) Data Sources.
 
 Port from [falcor-express](https://github.com/Netflix/falcor-express).
 
