@@ -13,7 +13,7 @@ function requestToContext(req) {
   const context = {}
 
   if (queryMap) {
-    Object.keys(queryMap).forEach(key => {
+    Object.keys(queryMap).forEach((key) => {
       const arg = queryMap[key]
 
       if (parseArgs[key] && arg) {
