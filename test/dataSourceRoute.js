@@ -5,23 +5,16 @@ import request from 'supertest'
 import Router from 'falcor-router'
 
 import falcor from 'falcor'
-import {pathValue, pathInvalidation} from 'falcor-json-graph'
 import bodyParser from 'koa-bodyparser'
 import HttpDataSource from 'falcor-http-datasource'
 
 import {dataSourceRoute} from '../src'
 
+import routes from './routes'
+
 describe('dataSourceRoute', () => {
   const app = new Koa()
-  app.use(dataSourceRoute(() => new Router([{
-    route: 'greeting',
-    get() {
-      return {
-        path: ['greeting'],
-        value: 'Hello World!',
-      }
-    },
-  }])))
+  app.use(dataSourceRoute(() => new Router(routes)))
 
   it('should return the JSON Graph', (done) => {
     request(app.listen())
@@ -45,28 +38,10 @@ describe('dataSourceRoute', () => {
 })
 
 describe('falcor.call()', () => {
-  let counter = 0
   let changeCounter = 0
   const app = new Koa()
   app.use(bodyParser())
-  app.use(dataSourceRoute(() => new Router([{
-    route: 'greeting',
-    get() {
-      return {
-        path: ['greeting'],
-        value: 'Hello World!',
-      }
-    },
-  }, {
-    route: 'count',
-    call() {
-      counter += 1
-      return [
-        pathValue(['counter'], counter),
-        pathInvalidation(['greeting']),
-      ]
-    },
-  }])))
+  app.use(dataSourceRoute(() => new Router(routes)))
 
   let httpModel
   before((done) => {
@@ -86,7 +61,7 @@ describe('falcor.call()', () => {
     should(httpModel.getVersion()).be.exactly(-1)
 
     return httpModel
-    .get('greeting')
+    .get(['greeting'], ['counter'])
     .then((res) => {
       should(res.json.greeting).be.exactly('Hello World!')
 
@@ -94,12 +69,16 @@ describe('falcor.call()', () => {
       should(httpModel.getVersion()).be.exactly(1)
       should(httpModel.getCache().greeting.value).be.exactly('Hello World!')
 
-      should(counter).be.exactly(0)
+      return httpModel.call('counter')
+      .then(resCall => httpModel.get('counter').then(resNew => ({
+        res,
+        resCall,
+        resNew,
+      })))
     })
-    .then(() => httpModel.call('count'))
-    .then((res) => {
-      should(counter).be.exactly(1)
-      should(res.json.counter).be.exactly(1)
+    .then(({res, resCall, resNew}) => {
+      should(resCall.json.counter).be.exactly(res.json.counter + 1)
+      should(resNew.json.counter).be.exactly(res.json.counter + 1)
 
       should(changeCounter).be.exactly(3)
       should(httpModel.getVersion()).be.exactly(3)
