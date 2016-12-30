@@ -13,7 +13,7 @@ npm install koa-falcor koa@next koa-bodyparser@next koa-route@next falcor-router
 ## Usage
 
 ```js
-import { dataSourceRoute } from 'koa-falcor'
+import {dataSourceRoute} from 'koa-falcor'
 import bodyParser from 'koa-bodyparser'
 import Koa from 'koa'
 import route from 'koa-route'
@@ -44,7 +44,7 @@ npm install koa-falcor koa koa-bodyparser koa-route falcor-router koa-convert --
 ```
 
 ```js
-import { dataSourceRoute } from 'koa-falcor'
+import {dataSourceRoute} from 'koa-falcor'
 import bodyParser from 'koa-bodyparser'
 import convert from 'koa-convert'
 import koa from 'koa'

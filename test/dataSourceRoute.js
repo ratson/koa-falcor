@@ -11,7 +11,7 @@ import HttpDataSource from 'falcor-http-datasource'
 
 import {dataSourceRoute} from '../src'
 
-describe('dataSourceRoute', function() {
+describe('dataSourceRoute', () => {
   const app = new Koa()
   app.use(dataSourceRoute(() => new Router([{
     route: 'greeting',
@@ -44,7 +44,7 @@ describe('dataSourceRoute', function() {
   })
 })
 
-describe('falcor.call()', function() {
+describe('falcor.call()', () => {
   let counter = 0
   let changeCounter = 0
   const app = new Koa()
@@ -59,7 +59,7 @@ describe('falcor.call()', function() {
     },
   }, {
     route: 'count',
-    call(pathSet, args) {
+    call() {
       counter += 1
       return [
         pathValue(['counter'], counter),
@@ -76,7 +76,7 @@ describe('falcor.call()', function() {
         source: new HttpDataSource(`http://${address}:${port}/`),
         onChange() {
           changeCounter += 1
-        }
+        },
       })
       done()
     })
