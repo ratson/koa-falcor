@@ -1,2 +1,4 @@
 env:
   mocha: true
+rules:
+  arrow-body-style: off

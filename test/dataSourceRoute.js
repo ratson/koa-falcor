@@ -1,12 +1,12 @@
 import should from 'should'
 
 import Koa from 'koa'
-import request from 'supertest'
-import Router from 'falcor-router'
-
-import falcor from 'falcor'
 import bodyParser from 'koa-bodyparser'
+import request from 'supertest'
+
+import {Model} from 'falcor'
 import HttpDataSource from 'falcor-http-datasource'
+import Router from 'falcor-router'
 
 import {dataSourceRoute} from '../src'
 
@@ -47,7 +47,7 @@ describe('falcor.call()', () => {
   before((done) => {
     app.listen(function() {
       const {port, address} = this.address()
-      httpModel = new falcor.Model({
+      httpModel = new Model({
         source: new HttpDataSource(`http://${address}:${port}/`),
         onChange() {
           changeCounter += 1
