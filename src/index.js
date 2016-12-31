@@ -6,26 +6,25 @@ import dataSourceRoute from './dataSourceRoute'
 
 export {dataSourceRoute}
 
-function createRouter(routes, ctx, ctxProp) {
-  if (!ctxProp) {
-    return new FalcorRouter(routes)
-  }
-  class ContextRouter extends FalcorRouter.createClass(routes) {
-    constructor(koaContext) {
-      super()
-      this[ctxProp] = koaContext
-    }
-  }
-  return new ContextRouter(ctx)
-}
-
 export default (opts = {}) => {
-  const {routes, bodyParser, ctxProp = 'ctx'} = Array.isArray(opts) ? {
-    routes: opts,
-  } : opts
+  const {
+    bodyParser,
+    ctxProp = 'ctx',
+    Router = FalcorRouter,
+    routes,
+  } = Array.isArray(opts) ? {routes: opts} : opts
+
+  const CtxRouter = ctxProp ? (
+    class ContextRouter extends Router.createClass(routes) {
+      constructor(koaContext) {
+        super()
+        this[ctxProp] = koaContext
+      }
+    }
+  ) : new Router(routes)
 
   return compose([
-    bodyParser !== false && koaBodyParser(),
-    dataSourceRoute(ctx => createRouter(routes, ctx, ctxProp)),
+    bodyParser !== false && koaBodyParser(bodyParser),
+    dataSourceRoute(ctx => ctxProp ? new CtxRouter(ctx) : CtxRouter),
   ].filter(Boolean))
 }
