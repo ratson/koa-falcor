@@ -53,7 +53,9 @@ export default getDataSource => (ctx) => {
     obs = dataSource[context.method]([].concat(context.paths))
   }
 
-  return obs.toPromise().then((jsonGraphEnvelope) => {
+  return new Promise((resolve, reject) => {
+    obs.subscribe(resolve, reject)
+  }).then((jsonGraphEnvelope) => {
     ctx.body = jsonGraphEnvelope
   })
 }
