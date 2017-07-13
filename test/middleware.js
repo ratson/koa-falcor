@@ -5,7 +5,7 @@ import Koa from 'koa'
 import { Model } from 'falcor'
 import HttpDataSource from 'falcor-http-datasource'
 
-import falcor from '../src'
+import falcor from '../lib'
 
 import routes from './routes'
 

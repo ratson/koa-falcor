@@ -8,7 +8,7 @@ import { Model } from 'falcor'
 import HttpDataSource from 'falcor-http-datasource'
 import Router from 'falcor-router'
 
-import { dataSourceRoute } from '../src'
+import { dataSourceRoute } from '../lib'
 
 import routes from './routes'
 
