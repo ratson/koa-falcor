@@ -4,7 +4,7 @@ import FalcorRouter from 'falcor-router'
 
 import dataSourceRoute from './dataSourceRoute'
 
-export {dataSourceRoute}
+export { dataSourceRoute }
 
 function makeRouter(routes, ctxProp, Router) {
   class ContextRouter extends Router.createClass(routes) {
@@ -22,12 +22,16 @@ export default (opts = {}) => {
     ctxProp = 'ctx',
     Router = FalcorRouter,
     routes,
-  } = Array.isArray(opts) ? {routes: opts} : opts
+  } = Array.isArray(opts) ? { routes: opts } : opts
 
-  const CtxRouter = ctxProp ? makeRouter(routes, ctxProp, Router) : new Router(routes)
+  const CtxRouter = ctxProp
+    ? makeRouter(routes, ctxProp, Router)
+    : new Router(routes)
 
-  return compose([
-    bodyParser !== false && koaBodyParser(bodyParser),
-    dataSourceRoute(ctx => ctxProp ? new CtxRouter(ctx) : CtxRouter),
-  ].filter(Boolean))
+  return compose(
+    [
+      bodyParser !== false && koaBodyParser(bodyParser),
+      dataSourceRoute(ctx => (ctxProp ? new CtxRouter(ctx) : CtxRouter)),
+    ].filter(Boolean),
+  )
 }

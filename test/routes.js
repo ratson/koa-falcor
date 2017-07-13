@@ -1,4 +1,4 @@
-import {pathValue, pathInvalidation} from 'falcor-json-graph'
+import { pathValue, pathInvalidation } from 'falcor-json-graph'
 
 let counter = 0
 
@@ -12,7 +12,7 @@ export default [{
   get() {
     return pathValue(['counter'], counter)
   },
-  call(pathSet, {count = 1} = {}) {
+  call(pathSet, { count = 1 } = {}) {
     counter += count
     return [
       pathValue(['counter'], counter),

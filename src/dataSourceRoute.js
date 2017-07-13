@@ -9,11 +9,12 @@ const parseArgs = Object.freeze({
 })
 
 function requestToContext(req) {
-  const queryMap = req.method === 'POST' ? req.body : url.parse(req.url, true).query
+  const queryMap =
+    req.method === 'POST' ? req.body : url.parse(req.url, true).query
   const context = {}
 
   if (queryMap) {
-    Object.keys(queryMap).forEach((key) => {
+    Object.keys(queryMap).forEach(key => {
       const arg = queryMap[key]
 
       if (parseArgs[key] && arg) {
@@ -26,7 +27,7 @@ function requestToContext(req) {
   return context
 }
 
-export default getDataSource => (ctx) => {
+export default getDataSource => ctx => {
   const dataSource = getDataSource(ctx)
   if (!dataSource) {
     ctx.throw('Undefined data source', 500)
@@ -48,14 +49,19 @@ export default getDataSource => (ctx) => {
   if (context.method === 'set') {
     obs = dataSource[context.method](context.jsonGraph)
   } else if (context.method === 'call') {
-    obs = dataSource[context.method](context.callPath, context.arguments, context.pathSuffixes, context.paths)
+    obs = dataSource[context.method](
+      context.callPath,
+      context.arguments,
+      context.pathSuffixes,
+      context.paths,
+    )
   } else {
     obs = dataSource[context.method]([].concat(context.paths))
   }
 
   return new Promise((resolve, reject) => {
     obs.subscribe(resolve, reject)
-  }).then((jsonGraphEnvelope) => {
+  }).then(jsonGraphEnvelope => {
     ctx.body = jsonGraphEnvelope
   })
 }

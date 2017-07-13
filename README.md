@@ -41,7 +41,7 @@ npm install koa-falcor koa koa-bodyparser koa-route falcor-router --save
 ```
 
 ```js
-import {dataSourceRoute} from 'koa-falcor'
+import { dataSourceRoute } from 'koa-falcor'
 import bodyParser from 'koa-bodyparser'
 import Koa from 'koa'
 import route from 'koa-route'
