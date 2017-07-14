@@ -1,3 +1,6 @@
 extends:
   - concise
   - concise-esnext
+rules:
+  strict: off
+  promise/always-return: off
