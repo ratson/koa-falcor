@@ -45,44 +45,33 @@ describe('falcor.call()', () => {
 
   let httpModel
   before(done => {
-    app.listen(function () {
-      const { port, address } = this.address()
-      httpModel = new Model({
-        source: new HttpDataSource(`http://${address}:${port}/`),
-        onChange() {
-          changeCounter += 1
-        },
-      })
-      done()
+    const server = app.listen(done)
+    const { port, address } = server.address()
+    httpModel = new Model({
+      source: new HttpDataSource(`http://${address}:${port}/`),
+      onChange() {
+        changeCounter += 1
+      },
     })
   })
 
-  it('should return correct response', () => {
+  it('should return correct response', async () => {
     should(httpModel.getVersion()).be.exactly(-1)
 
-    return httpModel
-      .get(['greeting'], ['counter'])
-      .then(res => {
-        should(res.json.greeting).be.exactly('Hello World!')
+    const res = await httpModel.get(['greeting'], ['counter'])
+    should(res.json.greeting).be.exactly('Hello World!')
 
-        should(changeCounter).be.exactly(1)
-        should(httpModel.getVersion()).be.exactly(1)
-        should(httpModel.getCache().greeting.value).be.exactly('Hello World!')
+    should(changeCounter).be.exactly(1)
+    should(httpModel.getVersion()).be.exactly(1)
+    should(httpModel.getCache().greeting).be.exactly('Hello World!')
 
-        return httpModel.call('counter')
-          .then(resCall => httpModel.get('counter').then(resNew => ({
-            res,
-            resCall,
-            resNew,
-          })))
-      })
-      .then(({ res, resCall, resNew }) => {
-        should(resCall.json.counter).be.exactly(res.json.counter + 1)
-        should(resNew.json.counter).be.exactly(res.json.counter + 1)
+    const resCall = await httpModel.call('counter')
+    const resNew = await httpModel.get('counter')
+    should(resCall.json.counter).be.exactly(res.json.counter + 1)
+    should(resNew.json.counter).be.exactly(res.json.counter + 1)
 
-        should(changeCounter).be.exactly(3)
-        should(httpModel.getVersion()).be.exactly(3)
-        should(httpModel.getCache().greeting).be.undefined()
-      })
+    should(changeCounter).be.exactly(3)
+    should(httpModel.getVersion()).be.exactly(3)
+    should(httpModel.getCache().greeting).be.undefined()
   })
 })

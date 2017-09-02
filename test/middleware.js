@@ -15,20 +15,16 @@ describe('middleware', () => {
 
   let httpModel
   before(done => {
-    app.listen(function () {
-      const { port, address } = this.address()
-      httpModel = new Model({
-        source: new HttpDataSource(`http://${address}:${port}/`),
-      })
-      done()
+    const server = app.listen(done)
+    const { port, address } = server.address()
+    httpModel = new Model({
+      source: new HttpDataSource(`http://${address}:${port}/`),
     })
   })
 
-  it('should work for call()', () => {
-    return httpModel.call('counter')
-      .then(res => {
-        should(res.json.counter).be.above(0)
-      })
+  it('should work for call()', async () => {
+    const res = await httpModel.call('counter')
+    should(res.json.counter).be.above(0)
   })
 })
 
@@ -38,20 +34,16 @@ describe('middleware opts = routes', () => {
 
   let httpModel
   before(done => {
-    app.listen(function () {
-      const { port, address } = this.address()
-      httpModel = new Model({
-        source: new HttpDataSource(`http://${address}:${port}/`),
-      })
-      done()
+    const server = app.listen(done)
+    const { port, address } = server.address()
+    httpModel = new Model({
+      source: new HttpDataSource(`http://${address}:${port}/`),
     })
   })
 
-  it('should work for call()', () => {
-    return httpModel.call('counter')
-      .then(res => {
-        should(res.json.counter).be.above(0)
-      })
+  it('should work for call()', async () => {
+    const res = await httpModel.call('counter')
+    should(res.json.counter).be.above(0)
   })
 })
 
@@ -61,33 +53,27 @@ describe('middleware opts.bodyParser = false', () => {
 
   let httpModel
   before(done => {
-    app.listen(function () {
-      const { port, address } = this.address()
-      httpModel = new Model({
-        source: new HttpDataSource(`http://${address}:${port}/`),
-      })
-      done()
+    const server = app.listen(done)
+    const { port, address } = server.address()
+    httpModel = new Model({
+      source: new HttpDataSource(`http://${address}:${port}/`),
     })
   })
 
-  it('should work for get()', () => {
-    return httpModel
-      .get(['greeting'])
-      .then(res => {
-        should(res.json.greeting).be.exactly('Hello World!')
+  it('should work for get()', async () => {
+    const res = await httpModel.get(['greeting'])
 
-        should(httpModel.getCache().greeting.value).be.exactly('Hello World!')
-      })
+    should(res.json.greeting).be.exactly('Hello World!')
+
+    should(httpModel.getCache().greeting).be.exactly('Hello World!')
   })
 
-  it('should not work for call()', () => {
-    return httpModel
-      .call(['counter'])
-      .then(() => {
-        should.fail()
-      })
-      .catch(err => {
-        should(err.message).be.exactly('Internal Server Error')
-      })
+  it('should not work for call()', async () => {
+    try {
+      await httpModel.call(['counter'])
+      should.fail()
+    } catch (err) {
+      should(err.message).be.exactly('Internal Server Error')
+    }
   })
 })
