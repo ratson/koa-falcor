@@ -1,16 +1,18 @@
-import should from 'should'
+'use strict'
 
-import Koa from 'koa'
-import bodyParser from 'koa-bodyparser'
-import request from 'supertest'
+const should = require('should')
 
-import { Model } from 'falcor'
-import HttpDataSource from 'falcor-http-datasource'
-import Router from 'falcor-router'
+const Koa = require('koa')
+const bodyParser = require('koa-bodyparser')
+const request = require('supertest')
 
-import { dataSourceRoute } from '../lib'
+const { Model } = require('falcor')
+const HttpDataSource = require('falcor-http-datasource')
+const Router = require('falcor-router')
 
-import routes from './routes'
+const { dataSourceRoute } = require('../lib')
+
+const routes = require('./routes')
 
 describe('dataSourceRoute', () => {
   const app = new Koa()

@@ -1,13 +1,15 @@
-import should from 'should'
+'use strict'
 
-import Koa from 'koa'
+const should = require('should')
 
-import { Model } from 'falcor'
-import HttpDataSource from 'falcor-http-datasource'
+const Koa = require('koa')
 
-import falcor from '../lib'
+const { Model } = require('falcor')
+const HttpDataSource = require('falcor-http-datasource')
 
-import routes from './routes'
+const falcor = require('../lib')
+
+const routes = require('./routes')
 
 describe('middleware', () => {
   const app = new Koa()

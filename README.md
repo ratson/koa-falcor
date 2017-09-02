@@ -12,10 +12,12 @@ npm install koa-falcor koa koa-route --save
 
 ## Usage
 
+<!-- eslint-disable strict -->
+
 ```js
-import falcor from 'koa-falcor'
-import Koa from 'koa'
-import route from 'koa-route'
+const falcor = require('koa-falcor')
+const Koa = require('koa')
+const route = require('koa-route')
 
 const app = new Koa()
 
@@ -40,12 +42,14 @@ Then access the JSON Graph via `http://localhost:3000/model.json?paths=[["greeti
 npm install koa-falcor koa koa-bodyparser koa-route falcor-router --save
 ```
 
+<!-- eslint-disable strict -->
+
 ```js
-import { dataSourceRoute } from 'koa-falcor'
-import bodyParser from 'koa-bodyparser'
-import Koa from 'koa'
-import route from 'koa-route'
-import Router from 'falcor-router'
+const { dataSourceRoute } = require('koa-falcor')
+const bodyParser = require('koa-bodyparser')
+const Koa = require('koa')
+const route = require('koa-route')
+const Router = require('falcor-router')
 
 const app = new Koa()
 
