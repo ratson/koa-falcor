@@ -1,6 +1,6 @@
 {
   "name": "koa-falcor",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Koa Middleware for Hosting Falcor Data Sources.",
   "main": "lib/index.js",
   "scripts": {
