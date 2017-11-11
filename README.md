@@ -12,7 +12,7 @@ npm install koa-falcor koa koa-route --save
 
 ## Usage
 
-<!-- eslint-disable strict -->
+<!-- eslint-disable strict,node/no-missing-require -->
 
 ```js
 const falcor = require('koa-falcor')
@@ -42,7 +42,7 @@ Then access the JSON Graph via `http://localhost:3000/model.json?paths=[["greeti
 npm install koa-falcor koa koa-bodyparser koa-route falcor-router --save
 ```
 
-<!-- eslint-disable strict -->
+<!-- eslint-disable strict,node/no-missing-require -->
 
 ```js
 const { dataSourceRoute } = require('koa-falcor')
